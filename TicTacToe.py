@@ -9,7 +9,7 @@ gameExit = False
 current_player = 0
 INIT_POS_O = 195 / 2
 INIT_POS_X = 25
-
+force_close = False	
 
 
 #Colors
@@ -144,7 +144,9 @@ def draw_shape(x_pos, y_pos):
 def board_reset():
 	global board
 	global current_player
+	global force_close
 	current_player = 0
+	force_close = False
 	for i in range(3):
 		for j in range(3):
 			board[i][j] = 0
@@ -156,11 +158,11 @@ def board_reset():
 Runs the game logic
 """
 def run():
+	board_reset()
 	global gameExit
 	global current_player
 	global board
-	board_reset()
-	force_close = False
+	global force_close
 	while not gameExit:
 		draw_board()
 
@@ -190,7 +192,7 @@ def run():
 
 		if force_close:
 			gameExit = True
-			return True
+			return 'Force Closed!'
 
 		if check_game_won():
 			if current_player % 2 == 0:
@@ -204,8 +206,9 @@ def run():
 def write_who_won():
 	global font
 	won_text = run()
-	if won_text == True:
-		pass
+	if won_text == 'Force Closed!':
+		pygame.quit()
+		quit()
 	else:
 		message = font.render(won_text, True, _BLUE)
 		gameDisplay.blit(message, [205, 300])
@@ -221,11 +224,9 @@ def write_who_won():
 				
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:
-						if write_who_won():
-							exit = True
-
-		pygame.quit()
-		quit()
+						if write_who_won() == 'Force Closed!':
+							pygame.quit()
+							quit()
 
 
 if __name__ == "__main__":
