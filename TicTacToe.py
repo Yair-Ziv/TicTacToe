@@ -189,6 +189,7 @@ def run():
 		pygame.display.update()
 
 		if force_close:
+			gameExit = True
 			return True
 
 		if check_game_won():
@@ -220,10 +221,12 @@ def write_who_won():
 				
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:
-						write_who_won()
+						if write_who_won():
+							exit = True
 
 		pygame.quit()
 		quit()
 
 
-write_who_won()	
+if __name__ == "__main__":
+	write_who_won()
