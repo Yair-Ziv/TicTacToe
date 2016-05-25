@@ -59,7 +59,7 @@ def draw_board():
 				draw_x(i,j)
 
 """
-Draws an 'x'
+Draws an 'X'
 """
 def draw_x(x_pos, y_pos):
 
